@@ -1,0 +1,61 @@
+<%- include('../partials/header.ejs') %>
+<main id="show-flights-main">
+        <aside>
+            <div id="flight-info-title">
+                <h1>Flight Info</h1>
+            </div>
+                
+                <section id="show-page">
+                        <div class="show-info">Airline: <%= flight.airline %></div>
+                        <div class="show-info">Flight Number: <%= flight.flightNo %></div>
+                        <div class="show-info">Departs: <%= flight.departs %></div>
+                        <div class="show-info">Airport: <%= flight.airport %></div>
+                </section>
+        </aside>
+        <div id="column-center">
+                <section id="add-destination">
+                        <form action="/flights/<%= flight._id %>/destinations" method="POST" id="add-destination-form">
+                            <h2>Add Destination</h2> 
+                                <select name="airport" id="select-destination">
+                                    <option value="AUS">AUS</option>
+                                    <option value="SEA">SEA</option>
+                                    <option value="DEN">DEN</option>
+                                    <option value="LAX">LAX</option>
+                                    <option value="SAN">SAN</option>
+                                </select>
+                                <label>Arrival Time: 
+                                    <input type="datetime-local" name="arrival">
+                                </label><br>
+                                <input type="submit" class="btn btn-success" id="destination-btn" value="Add Destination">
+                        </form>     
+                </section>    
+                <section id="show-destinations">
+                        <% if (flight.destinations.length) { %>
+                            
+                            <table class="table">
+                                <thead>
+                                    <th scope="col">
+                                        Destination:
+                                    </th>
+                                    <th scope="col" >
+                                        Arrives At:
+                                    </th>
+                                </thead>
+                            
+                        
+                            <% flight.destinations.forEach(function(destination){ %>
+                                <tr>
+                                    <td><%= destination.airport %></td>
+                                    <td><%= destination.arrival %></td>
+                                </tr>
+                            <% }); %>
+                            </table>
+                        
+                        <% } else { %>
+                        
+                            <p>No Destinations</p>
+                        
+                        <% } %>
+                </section>
+        </div>    
+<%- include('../partials/footer.ejs') %>
