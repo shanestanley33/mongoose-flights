@@ -1,4 +1,4 @@
-const flight = require('../models/flight');
+const Flight = require('../models/flights');
 
 module.exports = {
 	index,
@@ -7,24 +7,24 @@ module.exports = {
 	show
 };
 
-function index(req, res) {
-	Flight.find({}).sort('departs').exec(function(err, flights) {
-		console.log(new Date());
-		res.render('flights/index', {
-			flights,
-			currentDate: new Date()
-		});
+async function index(req, res) {
+	const foundFlights = await Flight.find({}) 
+	console.log(new Date());
+	res.render('flights/index', {
+		flights: foundFlights,
+		currentDate: new Date()
 	});
+
 }
 
 function newFlight(req, res) {
-	var newFlight = new Flight();
-	var dt = newFlight.departs;
-	var destDate = `${dt.getFullYear()}-${dt.getMonth() + 1}-${dt.getDate()}T${dt
+	const newFlight = new Flight();
+	const dt = newFlight.departs;
+	const destDate = `${dt.getFullYear()}-${dt.getMonth() + 1}-${dt.getDate()}T${dt
 		.getHours()
 		.toString()
 		.padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')}`;
-	res.render('flights/new', { destDate });
+	res.render('flights/new', { bestDate });
 }
 
 function create(req, res) {

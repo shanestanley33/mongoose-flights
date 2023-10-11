@@ -1,8 +1,6 @@
-module.exports = mongoose.model('Flight', flightSchema);
 
 const mongoose = require('mongoose');
-// optional shortcut to the mongoose.Schema class
-const Schema = mongoose.Schema;
+
 
 const flightSchema = new mongoose.Schema({
     airline: { type: String, enum: ['Jet Blue', 'Pan Am', 'Quantus', 'Koreanair'], required: true },
@@ -16,3 +14,4 @@ const flightSchema = new mongoose.Schema({
 } 
 });
 
+module.exports = mongoose.model('Flight', flightSchema);
