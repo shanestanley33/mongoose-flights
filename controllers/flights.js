@@ -4,26 +4,43 @@ module.exports = {
 	index,
 	new: newFlight,
 	create,
-	show,
-	delete: deleteFlight
+	show
 };
 
 function index(req, res) {
-	flight.find
+	Flight.find({}).sort('departs').exec(function(err, flights) {
+		console.log(new Date());
+		res.render('flights/index', {
+			flights,
+			currentDate: new Date()
+		});
+	});
 }
 
 function newFlight(req, res) {
-	newFlight.new
+	var newFlight = new Flight();
+	var dt = newFlight.departs;
+	var destDate = `${dt.getFullYear()}-${dt.getMonth() + 1}-${dt.getDate()}T${dt
+		.getHours()
+		.toString()
+		.padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')}`;
+	res.render('flights/new', { destDate });
 }
 
 function create(req, res) {
-	flight.create(req.body)
+	if (req.body.departs === '') delete req.body.departs;
+	Flight.create(req.body);
+	console.log(req.body);
+	res.redirect('flights');
 }
 
 function show(req, res) {
-	flight.findById(req.params.id)
-}
-
-function deleteFlight(req, res) {
-	flight.delete
+	Flight.findById(req.params.id, function(err, flight) {
+		Ticket.find({ flight: flight._id }, function(err, tickets) {
+			res.render('flights/show', {
+				flight,
+				tickets
+			});
+		});
+	});
 }
