@@ -20,11 +20,11 @@ async function index(req, res) {
 function newFlight(req, res) {
 	const newFlight = new Flight();
 	const dt = newFlight.departs;
-	const destDate = `${dt.getFullYear()}-${dt.getMonth() + 1}-${dt.getDate()}T${dt
+	const destinationDate = `${dt.getFullYear()}-${dt.getMonth() + 1}-${dt.getDate()}T${dt
 		.getHours()
 		.toString()
 		.padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')}`;
-	res.render('flights/new', { bestDate });
+	res.render('flights/new', { destinationDate });
 }
 
 function create(req, res) {
